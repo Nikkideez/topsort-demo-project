@@ -17,6 +17,7 @@ import {
   Activity,
   Code2,
   ExternalLink,
+  type LucideIcon,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import type { AnalyticsData } from '@/context/TopsortContext';
@@ -25,7 +26,7 @@ interface ChecklistItem {
   id: string;
   title: string;
   description: string;
-  icon: React.ElementType;
+  icon: LucideIcon;
   check: (analytics: AnalyticsData, isInitialized: boolean) => boolean;
   codeHint: string;
   docsUrl?: string;

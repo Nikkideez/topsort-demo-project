@@ -16,7 +16,7 @@ import { useTopsortContext } from '@/context/TopsortContext';
 import { Cart } from '@/components/Cart';
 
 const navItems = [
-  { to: '/', label: 'Getting Started', icon: Zap },
+  { to: '/onboarding', label: 'Getting Started', icon: Zap },
   { to: '/catalog', label: 'Product Catalog', icon: ShoppingBag },
   { to: '/dashboard', label: 'Integration Dashboard', icon: LayoutDashboard },
 ];

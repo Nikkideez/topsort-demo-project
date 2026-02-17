@@ -3,6 +3,7 @@ import { TooltipProvider } from '@/components/ui/tooltip';
 import { TopsortProvider } from '@/context/TopsortContext';
 import { CartProvider } from '@/context/CartContext';
 import { Layout } from '@/components/Layout';
+import { LandingPage } from '@/pages/Landing';
 import { OnboardingPage } from '@/pages/Onboarding';
 import { CatalogPage } from '@/pages/Catalog';
 import { ProductDetailPage } from '@/pages/ProductDetail';
@@ -19,8 +20,12 @@ function App() {
         <TopsortProvider>
           <CartProvider>
             <Routes>
+              {/* Landing page without layout */}
+              <Route path="/" element={<LandingPage />} />
+
+              {/* App pages with layout */}
               <Route element={<Layout />}>
-                <Route path="/" element={<OnboardingPage />} />
+                <Route path="/onboarding" element={<OnboardingPage />} />
                 <Route path="/catalog" element={<CatalogPage />} />
                 <Route path="/product/:id" element={<ProductDetailPage />} />
                 <Route path="/dashboard" element={<DashboardPage />} />

@@ -288,13 +288,25 @@ export function TopsortProvider({ children }: { children: ReactNode }) {
     });
   }, []);
 
-  // Poll status periodically
+  // Poll status periodically (only update if changed)
   useEffect(() => {
     if (!isInitialized || !clientRef.current) return;
 
     const interval = setInterval(() => {
       if (clientRef.current) {
-        setStatus(clientRef.current.getStatus());
+        const newStatus = clientRef.current.getStatus();
+        setStatus(prev => {
+          // Only update if status actually changed
+          if (
+            prev.apiHealth !== newStatus.apiHealth ||
+            prev.lastAuctionCall?.getTime() !== newStatus.lastAuctionCall?.getTime() ||
+            prev.lastEventSent?.getTime() !== newStatus.lastEventSent?.getTime() ||
+            prev.errors.length !== newStatus.errors.length
+          ) {
+            return newStatus;
+          }
+          return prev;
+        });
       }
     }, 1000);
 
