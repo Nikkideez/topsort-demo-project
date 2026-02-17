@@ -1,73 +1,69 @@
-# React + TypeScript + Vite
+# Topsort Integration Demo
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A demonstration of Topsort Retail Media API integration for the Software Engineer (Integrations) role.
 
-Currently, two official plugins are available:
+## Purpose
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+This project demonstrates practical integration skills with a local simulation of Topsort's Retail Media APIs:
 
-## React Compiler
+- **Auctions API** - Running sponsored listing auctions with `createAuction()`
+- **Events API** - Tracking impressions, clicks, and purchases with `reportEvent()`
+- **Attribution** - Linking conversions to ad campaigns via `resolvedBidId`
+- **ROAS Calculation** - Measuring return on ad spend using attributed revenue
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Features
 
-## Expanding the ESLint configuration
+- Product catalog with sponsored placements from auction winners
+- IAB-compliant viewability tracking (50% visible for 1 second)
+- Shopping cart with attribution preservation through checkout
+- Real-time analytics dashboard with conversion funnel
+- Request inspector showing API payloads
+- Error simulation for testing resilience
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Tech Stack
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+- React + TypeScript + Vite
+- Tailwind CSS + shadcn/ui
+- Recharts for data visualization
+- Mock API server (client-side simulation)
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+## Getting Started
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm install
+npm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Project Structure
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
 ```
+src/
+├── api/           # Topsort API client
+├── components/    # UI components
+├── context/       # React context (Topsort, Cart)
+├── mock/          # Mock API server
+├── pages/         # Page components
+└── types/         # TypeScript definitions
+```
+
+## API Integration Pattern
+
+```typescript
+// Run auction for sponsored placements
+const response = await topsort.createAuction({
+  auctions: [{ type: 'listings', slots: 3 }]
+});
+
+// Track events for attribution
+await topsort.reportEvent({
+  impressions: [{ resolvedBidId, id, occurredAt, placement: { path } }],
+  clicks: [{ resolvedBidId, id, occurredAt }],
+  purchases: [{ id, occurredAt, items: [{ productId, quantity, unitPrice }] }]
+});
+```
+
+## Documentation References
+
+- [Auctions API](https://docs.topsort.com/reference/createauction)
+- [Events API](https://docs.topsort.com/reference/reportevent)
+- [Sponsored Listings](https://docs.topsort.com/en/api-reference/examples/sponsored-listings/search)
